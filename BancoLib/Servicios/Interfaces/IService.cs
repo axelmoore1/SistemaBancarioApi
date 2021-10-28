@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BancoLib.Servicios.Interfaces
 {
-    interface IService
+    public interface IService
     {
         List<Cliente> ConsultarClientes();
     }

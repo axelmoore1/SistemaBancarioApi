@@ -1,4 +1,6 @@
-﻿using BancoLib.Servicios.Interfaces;
+﻿using BancoLib.AccesoDatos.Implementaciones;
+using BancoLib.AccesoDatos.Interfaces;
+using BancoLib.Servicios.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace BancoLib.Servicios.Implementaciones
 {
-    class BancoService : IService
+    public class BancoService : IService
     {
+        private IBancoDao bancoDao = new BancoDao();
         public List<Cliente> ConsultarClientes()
         {
-            throw new NotImplementedException();
+            return bancoDao.GetClientes();
         }
     }
 }

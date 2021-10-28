@@ -15,7 +15,7 @@ namespace BancoLib.AccesoDatos.Implementaciones
         public List<Cliente> GetClientes()
         {
 
-            SqlConnection conexion = new SqlConnection (@"Data Source=.\SQLEXPRESS;Initial Catalog=banco2;Integrated Security=True");
+            SqlConnection conexion = new SqlConnection (@"Data Source=.\SQLEXPRESS02;Initial Catalog=banco2;Integrated Security=True");
             SqlCommand comando = new SqlCommand();
             conexion.Open();
             comando.Connection = conexion;
