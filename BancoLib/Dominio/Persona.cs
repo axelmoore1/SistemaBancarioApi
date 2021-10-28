@@ -13,6 +13,9 @@ namespace BancoLib
         public long dni { get; set; }
         public string password { get; set; }
 
+        public Persona()
+        {
+        }
         public Persona(string nombre, string apellido, long dni, string password)
         {
             this.nombre = nombre;
@@ -23,7 +26,7 @@ namespace BancoLib
 
         override public string ToString() 
         {
-            return apellido + ' ' + nombre;
+            return "Apellido: " + apellido + ". Nombre: " + nombre + ". DNI: " + dni.ToString() + ". Password: " + password;
         }
 
     }
