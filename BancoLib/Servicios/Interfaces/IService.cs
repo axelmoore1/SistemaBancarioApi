@@ -9,5 +9,9 @@ namespace BancoLib.Servicios.Interfaces
     public interface IService
     {
         List<Cliente> ConsultarClientes();
+
+        Cliente ConsultarCliente(string dni);
     }
+
+   
 }

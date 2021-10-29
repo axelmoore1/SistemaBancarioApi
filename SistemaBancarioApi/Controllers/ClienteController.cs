@@ -32,10 +32,10 @@ namespace SistemaBancarioApi.Controllers
         }
 
         // GET api/<ClienteController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{dni}")]
+        public Cliente Get(string dni)
         {
-            return "value";
+            return bancoService.ConsultarCliente(dni);
         }
 
         // POST api/<ClienteController>

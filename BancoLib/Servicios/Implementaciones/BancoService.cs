@@ -12,6 +12,12 @@ namespace BancoLib.Servicios.Implementaciones
     public class BancoService : IService
     {
         private IBancoDao bancoDao = new BancoDao();
+
+        public Cliente ConsultarCliente(string dni)
+        {
+            return bancoDao.GetCliente(dni);
+        }
+
         public List<Cliente> ConsultarClientes()
         {
             return bancoDao.GetClientes();
