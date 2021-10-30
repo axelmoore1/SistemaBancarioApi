@@ -22,5 +22,15 @@ namespace BancoLib.Servicios.Implementaciones
         {
             return bancoDao.GetClientes();
         }
+
+        public bool CrearCliente(Cliente oCliente)
+        {
+            return bancoDao.CreateCliente(oCliente);
+        }
+
+        public bool DeleteCliente(string dni)
+        {
+            return bancoDao.Delete(dni);
+        }
     }
 }

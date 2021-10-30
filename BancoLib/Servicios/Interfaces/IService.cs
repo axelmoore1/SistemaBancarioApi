@@ -11,6 +11,10 @@ namespace BancoLib.Servicios.Interfaces
         List<Cliente> ConsultarClientes();
 
         Cliente ConsultarCliente(string dni);
+
+        public bool CrearCliente(Cliente oCliente);
+
+        public bool DeleteCliente(string dni);
     }
 
    

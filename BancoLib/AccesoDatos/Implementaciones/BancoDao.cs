@@ -6,11 +6,101 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace BancoLib.AccesoDatos.Implementaciones
 {
     class BancoDao : IBancoDao
     {
+
+        public bool CreateCliente(Cliente oCliente)
+        {
+            bool ok = true;
+
+            SqlConnection conexion = new SqlConnection(@"Data Source=.\SQLEXPRESS02;Initial Catalog=banco2;Integrated Security=True");
+            SqlCommand comando = new SqlCommand();
+            SqlTransaction transaction = null;
+            conexion.Open();
+            comando.Connection = conexion;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "SP_INSERTAR_CLIENTE";
+            try
+            {
+                conexion.Open();
+                transaction = conexion.BeginTransaction();
+
+                //Se inserta clientes 
+                foreach (Cliente cliente in oCliente.clientes)
+                {
+
+                    comando.CommandType = CommandType.StoredProcedure;
+
+                    comando.Parameters.AddWithValue("@nombre", oCliente.nombre);
+                    comando.Parameters.AddWithValue("@apellido", oCliente.apellido);
+                    comando.Parameters.AddWithValue("@dni", oCliente.dni);
+                    comando.Parameters.AddWithValue("@fecha_alta", oCliente.FechaAlta);
+
+                    comando.ExecuteNonQuery();
+
+
+                    comando.ExecuteNonQuery();
+                }
+
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                ok = false;
+
+            }
+            finally
+            {
+                if (conexion.State == ConnectionState.Open)
+                {
+                    conexion.Close();
+                }
+            }
+            return ok;
+
+        }
+
+        public bool Delete(string dni)
+        {
+            SqlConnection conexion = new SqlConnection(@"Data Source=.\SQLEXPRESS02;Initial Catalog=banco2;Integrated Security=True");
+            SqlTransaction transaction = null;
+            int affected = 0;
+            try
+            {
+                
+                conexion.Open();
+                transaction = conexion.BeginTransaction(); //crea una conexion con la transaccion 
+                SqlCommand comando = new SqlCommand();
+                comando.Connection = conexion;
+                comando.Transaction = transaction; //utiliza el comando transaccion para poder utilizarla 
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.CommandText = "SP_BORRAR_CLIENTE";
+
+
+                comando.Parameters.AddWithValue("@dni", dni);
+                affected = comando.ExecuteNonQuery();
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
+            finally
+            {
+                if (conexion != null && conexion.State == ConnectionState.Open)
+                    conexion.Close();
+            }
+
+            return affected == 1;
+
+        } 
+    
+
         public Cliente GetCliente(string dni)
         {
             SqlConnection conexion = new SqlConnection(@"Data Source=.\SQLEXPRESS02;Initial Catalog=banco2;Integrated Security=True");

@@ -40,8 +40,19 @@ namespace SistemaBancarioApi.Controllers
 
         // POST api/<ClienteController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult PostCliente(Cliente oCliente)
         {
+            if (oCliente != null)
+            {
+                return BadRequest();
+            }
+            if (bancoService.CrearCliente(oCliente))
+            {
+                return Ok("Ok");
+            }
+            else 
+                return Ok("No se pudo cargar el cliente"); 
+
         }
 
         // PUT api/<ClienteController>/5

@@ -10,8 +10,9 @@ namespace BancoLib.AccesoDatos.Interfaces
     {
         List<Cliente> GetClientes();
         Cliente GetCliente(string dni);
-        //Cliente CreateCliente();// agregar todos los datos del cliente 
-        //void  DeleteCliente();
+        bool CreateCliente(Cliente oCliente); // agregar todos los datos del cliente 
+
+        bool Delete(string dni);
         //Cliente UpdateCliente();// agregar todos los datos de cliente
     }
 }
