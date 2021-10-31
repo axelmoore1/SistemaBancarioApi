@@ -26,29 +26,19 @@ namespace BancoLib.AccesoDatos.Implementaciones
             comando.CommandText = "SP_INSERTAR_CLIENTE";
             try
             {
-                conexion.Open();
                 transaction = conexion.BeginTransaction();
 
-                //Se inserta clientes 
-                foreach (Cliente cliente in oCliente.clientes)
-                {
-
-                    comando.CommandType = CommandType.StoredProcedure;
-
-                    comando.Parameters.AddWithValue("@nombre", oCliente.nombre);
-                    comando.Parameters.AddWithValue("@apellido", oCliente.apellido);
-                    comando.Parameters.AddWithValue("@dni", oCliente.dni);
-                    comando.Parameters.AddWithValue("@fecha_alta", oCliente.FechaAlta);
-
-                    comando.ExecuteNonQuery();
-
-
-                    comando.ExecuteNonQuery();
-                }
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.Transaction = transaction;
+                comando.Parameters.AddWithValue("@nombre", oCliente.nombre);
+                comando.Parameters.AddWithValue("@apellido", oCliente.apellido);
+                comando.Parameters.AddWithValue("@dni", oCliente.dni.ToString());
+                comando.Parameters.AddWithValue("@fecha_alta", oCliente.FechaAlta);
+                comando.ExecuteNonQuery();
 
                 transaction.Commit();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 transaction.Rollback();
                 ok = false;

@@ -8,16 +8,12 @@ namespace BancoLib
 {
     public class Cliente : Persona
     {
-        //public List< Cuenta> cuentas;
         public DateTime FechaAlta { get; set;  }
         public Cliente(string nombre, string apellido, long dni, string password)
                     : base(nombre, apellido, dni, password) { }
         
-        
-        public List<Cliente> clientes { get; set; }
         public Cliente()
         {
-            clientes = new List<Cliente>();
         }
 
         public override string ToString()

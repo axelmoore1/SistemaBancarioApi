@@ -42,17 +42,16 @@ namespace SistemaBancarioApi.Controllers
         [HttpPost]
         public IActionResult PostCliente(Cliente oCliente)
         {
-            if (oCliente != null)
+            if (oCliente == null)
             {
                 return BadRequest();
             }
             if (bancoService.CrearCliente(oCliente))
             {
-                return Ok("Ok");
+                return Ok("Cliente cargado correctamente");
             }
             else 
                 return Ok("No se pudo cargar el cliente"); 
-
         }
 
         // PUT api/<ClienteController>/5
@@ -62,9 +61,17 @@ namespace SistemaBancarioApi.Controllers
         }
 
         // DELETE api/<ClienteController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{dni}")]
+        public IActionResult Delete(string dni)
         {
+            if (dni == null || dni.Length > 9)
+                return BadRequest();
+            if (bancoService.DeleteCliente(dni))
+            {
+                return Ok("Se elimino correctamente");
+            }
+            else
+                return Ok("Dni es requerido");
         }
     }
 }
