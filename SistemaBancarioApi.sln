@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaBancarioApi", "Siste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BancoLib", "BancoLib\BancoLib.csproj", "{D2F6C864-8C92-4B0B-A112-815D686FB69B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Front", "WinFormsApp1\Front.csproj", "{45BD4BDD-CB3C-4CB2-B2D7-137B39FF9896}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D2F6C864-8C92-4B0B-A112-815D686FB69B} = {D2F6C864-8C92-4B0B-A112-815D686FB69B}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +26,10 @@ Global
 		{D2F6C864-8C92-4B0B-A112-815D686FB69B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2F6C864-8C92-4B0B-A112-815D686FB69B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2F6C864-8C92-4B0B-A112-815D686FB69B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45BD4BDD-CB3C-4CB2-B2D7-137B39FF9896}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45BD4BDD-CB3C-4CB2-B2D7-137B39FF9896}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45BD4BDD-CB3C-4CB2-B2D7-137B39FF9896}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45BD4BDD-CB3C-4CB2-B2D7-137B39FF9896}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

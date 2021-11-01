@@ -38,7 +38,7 @@ namespace BancoLib.AccesoDatos.Implementaciones
 
                 transaction.Commit();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 transaction.Rollback();
                 ok = false;
