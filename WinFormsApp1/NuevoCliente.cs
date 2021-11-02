@@ -64,15 +64,15 @@ namespace WinFormsApp1
             
         }
 
-        private async Task<HttpResponseMessage> Grabar_Cliente_Async(Cliente oCliente) 
-        {
-            string url = "https://localhost:44389/api/Cliente/";
-            string clienteJson = JsonConvert.SerializeObject(oCliente);
-            var result = await ClienteSingleton.GetInstancia().PostAsync(url, clienteJson);
+        //private async Task<HttpResponseMessage> Grabar_Cliente_Async(Cliente oCliente) 
+        //{
+        //    string url = "https://localhost:44389/api/Cliente/";
+        //    string clienteJson = JsonConvert.SerializeObject(oCliente);
+        //    var result = await ClienteSingleton.GetInstancia().PostAsync(url, clienteJson);
 
-            return result;
+        //    return result;
 
-        }
+        //}
 
         private async void btnAceptar_Click(object sender, EventArgs e)
         {
@@ -99,7 +99,7 @@ namespace WinFormsApp1
             cliente.apellido = txtApellido.Text;
             cliente.nombre = txtNombre.Text;
             cliente.dni = long.Parse(txtDni.Text);
-            cliente.FechaAlta = Convert.ToDateTime (txtFecha.Text);
+            cliente.FechaAlta = Convert.ToDateTime(txtFecha.Text);
 
 
             var result = await Grabar_Cliente_Async(cliente);
@@ -112,6 +112,7 @@ namespace WinFormsApp1
             {
                 MessageBox.Show("Error al intentar grabar el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
 
         }
 
@@ -131,7 +132,7 @@ namespace WinFormsApp1
             var result = await ClienteSingleton.GetInstancia().GetAsync(url);
 
 
-            List<TipoCuenta2> lst = JsonConvert.DeserializeObject<List<TipoCuenta2>>(result);
+            List<TipoCuenta> lst = JsonConvert.DeserializeObject<List<TipoCuenta>>(result);
             cboCuentas.ValueMember = "Id";
             cboCuentas.DisplayMember = "Nombre";
 

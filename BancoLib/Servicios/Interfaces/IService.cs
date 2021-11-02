@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BancoLib.Dominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,11 @@ namespace BancoLib.Servicios.Interfaces
         public bool CrearCliente(Cliente oCliente);
 
         public bool DeleteCliente(string dni);
-        public List<TipoCuenta2> ConsultarCuenta(); //--> ver
+        public List<TipoCuenta> ConsultarCuenta(); //--> ver
+
+        public List<ClienteCuenta> ConsultarClienteCuenta(long dni);
+
+        public bool CrearCuentaCliente(ClienteCuenta clienteCuentas);
     }
 
    

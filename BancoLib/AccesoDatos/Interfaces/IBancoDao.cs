@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BancoLib.Dominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,13 @@ namespace BancoLib.AccesoDatos.Interfaces
 
         bool Delete(string dni);
         //Cliente UpdateCliente();// agregar todos los datos de cliente
-        List<TipoCuenta2> GetCuentas();
+        List<TipoCuenta> GetCuentas();
+
+        List<ClienteCuenta> GetClienteCuentas(long dni);
+
+       bool GetCreateClienteCuentas(ClienteCuenta clienteCuentas);
+
+
+
     }
 }

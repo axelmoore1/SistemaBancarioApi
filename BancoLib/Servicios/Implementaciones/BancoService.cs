@@ -1,5 +1,6 @@
 ﻿using BancoLib.AccesoDatos.Implementaciones;
 using BancoLib.AccesoDatos.Interfaces;
+using BancoLib.Dominio;
 using BancoLib.Servicios.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,17 @@ namespace BancoLib.Servicios.Implementaciones
             return bancoDao.GetCliente(dni);
         }
 
+        public List<ClienteCuenta> ConsultarClienteCuenta(long dni)
+        {
+            return bancoDao.GetClienteCuentas(dni);
+        }
+
         public List<Cliente> ConsultarClientes()
         {
             return bancoDao.GetClientes();
         }
 
-        public List<TipoCuenta2> ConsultarCuenta()
+        public List<TipoCuenta> ConsultarCuenta()
         {
             return bancoDao.GetCuentas();
         }
@@ -31,6 +37,11 @@ namespace BancoLib.Servicios.Implementaciones
         public bool CrearCliente(Cliente oCliente)
         {
             return bancoDao.CreateCliente(oCliente);
+        }
+
+        public bool CrearCuentaCliente(ClienteCuenta clienteCuentas)
+        {
+            return bancoDao.GetCreateClienteCuentas(clienteCuentas);
         }
 
         public bool DeleteCliente(string dni)

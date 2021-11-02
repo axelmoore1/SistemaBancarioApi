@@ -1,4 +1,5 @@
 ﻿using BancoLib.AccesoDatos.Interfaces;
+using BancoLib.Dominio;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,12 +13,12 @@ namespace BancoLib.AccesoDatos.Implementaciones
 {
     class BancoDao : IBancoDao
     {
-
+        private string cadena = Properties.Resources.conexion;
         public bool CreateCliente(Cliente oCliente)
         {
             bool ok = true;
 
-            SqlConnection conexion = new SqlConnection(@"Data Source=.\SQLEXPRESS02;Initial Catalog=banco2;Integrated Security=True");
+            SqlConnection conexion = new SqlConnection(cadena);
             SqlCommand comando = new SqlCommand();
             SqlTransaction transaction = null;
             conexion.Open();
@@ -57,7 +58,7 @@ namespace BancoLib.AccesoDatos.Implementaciones
 
         public bool Delete(string dni)
         {
-            SqlConnection conexion = new SqlConnection(@"Data Source=.\SQLEXPRESS02;Initial Catalog=banco2;Integrated Security=True");
+            SqlConnection conexion = new SqlConnection(cadena);
             SqlTransaction transaction = null;
             int affected = 0;
             try
@@ -93,7 +94,7 @@ namespace BancoLib.AccesoDatos.Implementaciones
 
         public Cliente GetCliente(string dni)
         {
-            SqlConnection conexion = new SqlConnection(@"Data Source=.\SQLEXPRESS02;Initial Catalog=banco2;Integrated Security=True");
+            SqlConnection conexion = new SqlConnection(cadena);
             SqlCommand comando = new SqlCommand();
             conexion.Open();
             comando.Connection = conexion;
@@ -134,10 +135,41 @@ namespace BancoLib.AccesoDatos.Implementaciones
 
         }
 
+        public List<ClienteCuenta> GetClienteCuentas(long dni)
+        {
+            SqlConnection conexion = new SqlConnection(cadena);
+            SqlCommand comando = new SqlCommand();
+            conexion.Open();
+            comando.Connection = conexion;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "SP_CONSULTAR_Cliente_Cuenta";
+            SqlParameter param1 = new SqlParameter();
+            param1.ParameterName = "@dni";
+            param1.SqlDbType = SqlDbType.VarChar;
+            param1.Value = dni.ToString();
+
+            comando.Parameters.Add(param1);
+
+            DataTable tabla = new DataTable();
+            tabla.Load(comando.ExecuteReader());
+            conexion.Close();
+            List<ClienteCuenta> lista = new List<ClienteCuenta>();
+            foreach (DataRow row in tabla.Rows)
+            {
+                ClienteCuenta oCliente = new ClienteCuenta();
+                oCliente.Id = Convert.ToInt32(row["ID"].ToString());
+                oCliente.Cbu = long.Parse(row["CBU"].ToString());
+                oCliente.Saldo = float.Parse(row["Saldo"].ToString());
+                oCliente.tipoCuenta = Convert.ToInt32(row["Tipo_Cuenta"].ToString());
+                lista.Add(oCliente);
+            }
+            return lista;
+        }
+
         public List<Cliente> GetClientes()
         {
 
-            SqlConnection conexion = new SqlConnection (@"Data Source=.\SQLEXPRESS02;Initial Catalog=banco2;Integrated Security=True");
+            SqlConnection conexion = new SqlConnection (cadena);
             SqlCommand comando = new SqlCommand();
             conexion.Open();
             comando.Connection = conexion;
@@ -166,9 +198,50 @@ namespace BancoLib.AccesoDatos.Implementaciones
 
         }
 
-        public List<TipoCuenta2> GetCuentas()
+        public bool GetCreateClienteCuentas(ClienteCuenta clienteCuentas) 
         {
-            SqlConnection conexion = new SqlConnection(@"Data Source=.\SQLEXPRESS02;Initial Catalog=banco2;Integrated Security=True");
+            bool affect = true;
+            SqlConnection conexion = new SqlConnection(cadena);
+            SqlCommand comando = new SqlCommand();
+            SqlTransaction transaction = null;
+            conexion.Open();
+            comando.Connection = conexion;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "SP_INSERTAR_CUENTA_CLIENTE";
+            try
+            {
+                transaction = conexion.BeginTransaction();
+
+              
+                comando.Transaction = transaction;
+                comando.Parameters.AddWithValue("@id",55);
+                comando.Parameters.AddWithValue("@cbu", clienteCuentas.Cbu);
+                comando.Parameters.AddWithValue("@saldo",clienteCuentas.Saldo);
+                comando.Parameters.AddWithValue("@tipoCuenta", clienteCuentas.tipoCuenta); ;
+                comando.Parameters.AddWithValue("@id_cliente", clienteCuentas.Id);
+                var result = comando.ExecuteNonQuery();
+                
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                affect = false;
+
+            }
+            finally
+            {
+                if (conexion.State == ConnectionState.Open)
+                {
+                    conexion.Close();
+                }
+            }
+            return affect;
+        }
+
+        public List<TipoCuenta> GetCuentas()
+        {
+            SqlConnection conexion = new SqlConnection(cadena);
             SqlCommand comando = new SqlCommand();
             conexion.Open();
             comando.Connection = conexion;
@@ -179,10 +252,10 @@ namespace BancoLib.AccesoDatos.Implementaciones
 
             conexion.Close();
 
-            List<TipoCuenta2> lista = new List<TipoCuenta2>();
+            List<TipoCuenta> lista = new List<TipoCuenta>();
             foreach (DataRow row in tabla.Rows)
             {
-                TipoCuenta2 oCuenta = new TipoCuenta2();
+                TipoCuenta oCuenta = new TipoCuenta();
 
                 oCuenta.Id =Convert.ToInt32 (row["id_tipo_cuenta"]);
                 oCuenta.Nombre = row["nombre_tipo_cuenta"].ToString();

@@ -29,12 +29,5 @@ namespace BancoLib
 
     }
 
-    public enum TipoCuenta
-    {
-        CUENTA_SUELDO,
-        CUENTA_CORRIENTE,
-        CAJA_AHORRO_PESOS,
-        CAJA_AHORRO_DOLARES, 
-
-    }
+    
 }

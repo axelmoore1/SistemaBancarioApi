@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace BancoLib
 {
-    public class TipoCuenta2
+    public class TipoCuenta
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
 
-        public TipoCuenta2() 
+        public TipoCuenta() 
         {
         }
 

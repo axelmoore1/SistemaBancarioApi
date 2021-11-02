@@ -23,7 +23,7 @@ namespace SistemaBancarioApi.Controllers
         }
         // GET: api/<CuentaController>
         [HttpGet]
-        public List<TipoCuenta2> Get()
+        public List<TipoCuenta> Get()
         {
             return bancoService.ConsultarCuenta();
         }
