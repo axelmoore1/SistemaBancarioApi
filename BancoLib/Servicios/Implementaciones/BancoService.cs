@@ -23,6 +23,11 @@ namespace BancoLib.Servicios.Implementaciones
             return bancoDao.GetClientes();
         }
 
+        public List<TipoCuenta2> ConsultarCuenta()
+        {
+            return bancoDao.GetCuentas();
+        }
+
         public bool CrearCliente(Cliente oCliente)
         {
             return bancoDao.CreateCliente(oCliente);

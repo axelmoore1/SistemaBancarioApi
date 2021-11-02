@@ -14,5 +14,6 @@ namespace BancoLib.AccesoDatos.Interfaces
 
         bool Delete(string dni);
         //Cliente UpdateCliente();// agregar todos los datos de cliente
+        List<TipoCuenta2> GetCuentas();
     }
 }

@@ -165,5 +165,33 @@ namespace BancoLib.AccesoDatos.Implementaciones
 
 
         }
+
+        public List<TipoCuenta2> GetCuentas()
+        {
+            SqlConnection conexion = new SqlConnection(@"Data Source=.\SQLEXPRESS02;Initial Catalog=banco2;Integrated Security=True");
+            SqlCommand comando = new SqlCommand();
+            conexion.Open();
+            comando.Connection = conexion;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "SP_CONSULTAR_CUENTAS";
+            DataTable tabla = new DataTable();
+            tabla.Load(comando.ExecuteReader());
+
+            conexion.Close();
+
+            List<TipoCuenta2> lista = new List<TipoCuenta2>();
+            foreach (DataRow row in tabla.Rows)
+            {
+                TipoCuenta2 oCuenta = new TipoCuenta2();
+
+                oCuenta.Id =Convert.ToInt32 (row["id_tipo_cuenta"]);
+                oCuenta.Nombre = row["nombre_tipo_cuenta"].ToString();
+                
+
+
+                lista.Add(oCuenta);
+            }
+            return lista;
+        }
     }
 }

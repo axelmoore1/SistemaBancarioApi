@@ -9,10 +9,11 @@ namespace BancoLib
     public class Cliente : Persona
     {
         public DateTime FechaAlta { get; set;  }
-        public List<Cuenta> Cuentas { get; set; }
+       
         public Cliente(string nombre, string apellido, long dni, string password)
                     : base(nombre, apellido, dni, password) { }
-        
+
+        public List<Cuenta> Cuentas { get;}
         public Cliente()
         {
             Cuentas = new List<Cuenta>();
