@@ -27,8 +27,8 @@ namespace WinFormsApp1
         //private IService service;
         private Accion accion = Accion.CREATE; 
 
-        Cliente oCliente = new Cliente(); //--> ver 
-        Cuenta oCuenta = new Cuenta(); //--> ver 
+        Cliente oCliente = new Cliente();  
+        Cuenta oCuenta = new Cuenta();  
         public NuevoCliente()
         {
             InitializeComponent();

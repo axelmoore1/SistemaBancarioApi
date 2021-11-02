@@ -31,6 +31,10 @@ namespace SistemaBancarioApi.Controllers
             return bancoService.ConsultarClientes();
         }
 
+
+        /// <summary>
+        /// Devuelve un unico cliente segun dni
+        /// </summary>
         // GET api/<ClienteController>/5
         [HttpGet("{dni}")]
         public Cliente Get(string dni)
