@@ -37,14 +37,79 @@ namespace BancoForms
             cboCuentas.DataSource = lst;
         }
 
+        private async void btnConsultar_Click(object sender, EventArgs e)
+        {
+            long dni = long.Parse (txtDni.Text);
+            await Cargar_Cliente_Async(dni);
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            btnAbrir.Enabled = true;
+            cboCuentas.Enabled = true; 
+        }
+
+        private async void btnAbrir_Click(object sender, EventArgs e)
+        {
+            Cliente cliente = await Consultar_Cliente_Async(long.Parse(txtDni.Text));
+
+            string url = "https://localhost:44389/api/ClienteCuenta/";
+            ClienteCuenta oClienteCuenta = new ClienteCuenta();
+            oClienteCuenta.Cbu = ClienteCuenta.GenerarCbu();
+            oClienteCuenta.Saldo = 0;
+            oClienteCuenta.tipoCuenta = Convert.ToInt32(cboCuentas.SelectedValue);
+            oClienteCuenta.Id_cliente = cliente.Id;
+            string clienteJson = JsonConvert.SerializeObject(oClienteCuenta);
+            var result = await ClienteSingleton.GetInstancia().PostAsync(url, clienteJson);
+
+            if (result.IsSuccessStatusCode) //-- ver si esta bien 
+            {
+                MessageBox.Show("Cuenta guardada con éxito!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+            }
+            else
+            {
+                MessageBox.Show("Error al intentar grabar la cuenta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            url = "https://localhost:44389/api/ClienteCuenta/" + cliente.dni.ToString();
+            var result2 = await ClienteSingleton.GetInstancia().GetAsync(url);
+            var lista = JsonConvert.DeserializeObject<List<ClienteCuenta>>(result2);
+
+            dgvResultados.Rows.Clear();
+            if (lista.Count != 0)
+            {
+                foreach (ClienteCuenta item in lista)
+                {
+                    dgvResultados.Rows.Add(new object[] {   item.Id,
+                                                            item.Cbu,
+                                                            item.tipoCuenta,
+                                                            item.Saldo
+                                                            });
+                }
+            }
+
+            btnAbrir.Enabled = false;
+            cboCuentas.Enabled = false;
+            cboCuentas.SelectedIndex = -1;
+
+        }
+
+        private async Task<Cliente> Consultar_Cliente_Async(long dni)
+        {
+            string url = "https://localhost:44389/api/Cliente/" + dni.ToString();
+            var result = await ClienteSingleton.GetInstancia().GetAsync(url);
+            return JsonConvert.DeserializeObject<Cliente>(result);
+        }
+
         private async Task Cargar_Cliente_Async(long dni)
         {
 
-            string url = "https://localhost:44389/api/Cliente/"+ dni.ToString();
+            string url = "https://localhost:44389/api/Cliente/" + dni.ToString();
             var result = await ClienteSingleton.GetInstancia().GetAsync(url);
             this.oCliente = JsonConvert.DeserializeObject<Cliente>(result);
 
-            if (this.oCliente == null) 
+            if (this.oCliente == null)
             {
                 MessageBox.Show("No existe usuario", "Validaciones", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtDni.Focus();
@@ -66,49 +131,10 @@ namespace BancoForms
                     dgvResultados.Rows.Add(new object[] {   item.Id,
                                                             item.Cbu,
                                                             item.tipoCuenta,
-                                                            item.Saldo 
+                                                            item.Saldo
                                                             });
                 }
             }
-        }
-
-        private async void btnConsultar_Click(object sender, EventArgs e)
-        {
-            long dni = long.Parse (txtDni.Text);
-            await Cargar_Cliente_Async(dni);
-        }
-
-        private void btnEditar_Click(object sender, EventArgs e)
-        {
-            btnAbrir.Enabled = true;
-            cboCuentas.Enabled = true; 
-        }
-
-        private async void btnAbrir_Click(object sender, EventArgs e)
-        {
-            string url = "https://localhost:44389/api/ClienteCuenta/";
-            ClienteCuenta oClienteCuenta = new ClienteCuenta();
-            oClienteCuenta.Cbu = 0;
-            oClienteCuenta.Saldo = 0;
-            oClienteCuenta.tipoCuenta = cboCuentas.SelectedIndex;
-            oClienteCuenta.Id_cliente = 4;
-            string clienteJson = JsonConvert.SerializeObject(oClienteCuenta);
-            var result = await ClienteSingleton.GetInstancia().PostAsync(url, clienteJson);
-
-            if (result.IsSuccessStatusCode) //-- ver si esta bien 
-            {
-                MessageBox.Show("Cuenta guardada con éxito!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Dispose();
-            }
-            else
-            {
-                MessageBox.Show("Error al intentar grabar la cuenta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            btnAbrir.Enabled = false;
-            cboCuentas.Enabled = false;
-            cboCuentas.SelectedIndex = -1;
-
         }
     }
 }

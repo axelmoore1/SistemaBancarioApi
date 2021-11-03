@@ -32,7 +32,7 @@ namespace WinFormsApp1
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.gbDatosCliente = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblTipoCta = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -43,6 +43,8 @@ namespace WinFormsApp1
             this.txtDni = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.lblPassword = new System.Windows.Forms.Label();
+            this.txtPassword = new System.Windows.Forms.TextBox();
             this.gbDatosCliente.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,7 +70,9 @@ namespace WinFormsApp1
             // gbDatosCliente
             // 
             this.gbDatosCliente.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(57)))), ((int)(((byte)(80)))));
-            this.gbDatosCliente.Controls.Add(this.label5);
+            this.gbDatosCliente.Controls.Add(this.txtPassword);
+            this.gbDatosCliente.Controls.Add(this.lblPassword);
+            this.gbDatosCliente.Controls.Add(this.lblTipoCta);
             this.gbDatosCliente.Controls.Add(this.label4);
             this.gbDatosCliente.Controls.Add(this.label3);
             this.gbDatosCliente.Controls.Add(this.label2);
@@ -87,14 +91,14 @@ namespace WinFormsApp1
             this.gbDatosCliente.TabStop = false;
             this.gbDatosCliente.Enter += new System.EventHandler(this.gbDatosCliente_Enter);
             // 
-            // label5
+            // lblTipoCta
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(109, 283);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(71, 15);
-            this.label5.TabIndex = 29;
-            this.label5.Text = "Tipo Cuenta";
+            this.lblTipoCta.AutoSize = true;
+            this.lblTipoCta.Location = new System.Drawing.Point(109, 283);
+            this.lblTipoCta.Name = "lblTipoCta";
+            this.lblTipoCta.Size = new System.Drawing.Size(71, 15);
+            this.lblTipoCta.TabIndex = 29;
+            this.lblTipoCta.Text = "Tipo Cuenta";
             // 
             // label4
             // 
@@ -184,6 +188,22 @@ namespace WinFormsApp1
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
+            // lblPassword
+            // 
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Location = new System.Drawing.Point(120, 327);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(57, 15);
+            this.lblPassword.TabIndex = 30;
+            this.lblPassword.Text = "Password";
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(215, 324);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(100, 23);
+            this.txtPassword.TabIndex = 31;
+            // 
             // NuevoCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -218,7 +238,9 @@ namespace WinFormsApp1
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblTipoCta;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Label lblPassword;
     }
 }
 

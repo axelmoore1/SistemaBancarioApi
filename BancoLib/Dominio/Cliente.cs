@@ -9,11 +9,15 @@ namespace BancoLib
     public class Cliente : Persona
     {
         public DateTime FechaAlta { get; set;  }
-       
-        public Cliente(string nombre, string apellido, long dni, string password)
-                    : base(nombre, apellido, dni, password) { }
+        public int Id { get; set; }
 
-        public List<Cuenta> Cuentas { get;}
+        public Cliente(int Id, string nombre, string apellido, long dni, string password)
+                    : base(nombre, apellido, dni, password)
+        {
+            this.Id = Id;
+        }
+
+        public List<Cuenta> Cuentas { get;} // Para que pone esto???
         public Cliente()
         {
             Cuentas = new List<Cuenta>();

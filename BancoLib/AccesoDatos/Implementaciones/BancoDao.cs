@@ -17,6 +17,7 @@ namespace BancoLib.AccesoDatos.Implementaciones
         public bool CreateCliente(Cliente oCliente)
         {
             bool ok = true;
+            int id_cliente = 0;
 
             SqlConnection conexion = new SqlConnection(cadena);
             SqlCommand comando = new SqlCommand();
@@ -35,7 +36,15 @@ namespace BancoLib.AccesoDatos.Implementaciones
                 comando.Parameters.AddWithValue("@apellido", oCliente.apellido);
                 comando.Parameters.AddWithValue("@dni", oCliente.dni.ToString());
                 comando.Parameters.AddWithValue("@fecha_alta", oCliente.FechaAlta);
+                comando.Parameters.AddWithValue("@passw", oCliente.password);
+                SqlParameter param = new SqlParameter();
+                param.ParameterName = "@id_cliente";
+                param.SqlDbType = SqlDbType.Int;
+                param.Direction = ParameterDirection.Output;
+                comando.Parameters.Add(param);
                 comando.ExecuteNonQuery();
+                id_cliente = (int)param.Value;
+                
 
                 transaction.Commit();
             }
@@ -119,11 +128,12 @@ namespace BancoLib.AccesoDatos.Implementaciones
                 Cliente oCliente = new Cliente();
                 while (dr.Read())
                 {
+                    oCliente.Id = dr.GetInt32(0);
                     oCliente.nombre = dr.GetString(1);
                     oCliente.apellido = dr.GetString(2);
                     oCliente.dni = long.Parse(dr.GetString(3));
                     oCliente.FechaAlta = dr.GetDateTime(4);
-    
+                    oCliente.password = dr.GetString(5);
                 }
                 return oCliente;
             }
@@ -184,12 +194,13 @@ namespace BancoLib.AccesoDatos.Implementaciones
             foreach (DataRow row in tabla.Rows)
             {
                 Cliente oCliente = new Cliente();
-                
+                oCliente.Id = Convert.ToInt32(row["id_cliente"].ToString());
                 oCliente.nombre = row["nombre"].ToString();
                 oCliente.apellido = row["apellido"].ToString();
                 oCliente.dni = Convert.ToInt32(row["dni"].ToString());
                 oCliente.FechaAlta = Convert.ToDateTime(row["Fecha"].ToString());
-                    
+                oCliente.password = row["passw"].ToString();
+
 
                 lista.Add(oCliente);
             }
@@ -214,11 +225,10 @@ namespace BancoLib.AccesoDatos.Implementaciones
 
               
                 comando.Transaction = transaction;
-                comando.Parameters.AddWithValue("@id",55);
+                comando.Parameters.AddWithValue("@id_cliente",clienteCuentas.Id_cliente);
+                comando.Parameters.AddWithValue("@tipoCuenta", clienteCuentas.tipoCuenta);
                 comando.Parameters.AddWithValue("@cbu", clienteCuentas.Cbu);
                 comando.Parameters.AddWithValue("@saldo",clienteCuentas.Saldo);
-                comando.Parameters.AddWithValue("@tipoCuenta", clienteCuentas.tipoCuenta); ;
-                comando.Parameters.AddWithValue("@id_cliente", clienteCuentas.Id);
                 var result = comando.ExecuteNonQuery();
                 
                 transaction.Commit();

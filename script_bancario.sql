@@ -114,16 +114,14 @@ END
 GO
 
 CREATE procedure SP_INSERTAR_CLIENTE
-(@id_cliente int output,
-@nombre varchar(100),
+(@nombre varchar(100),
 @apellido varchar(100),
 @dni varchar(50),
-@fecha_alta date)
+@fecha_alta datetime)
 as
 begin
 	insert into clientes (nombre,apellido,dni,fecha_alta)
 	values(@nombre,@apellido,@dni, @fecha_alta)
-	set @id_cliente = SCOPE_IDENTITY()
 END
 GO
 

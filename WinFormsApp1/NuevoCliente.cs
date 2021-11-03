@@ -1,4 +1,5 @@
 ﻿using BancoLib;
+using BancoLib.Dominio;
 using BancoLib.Servicios.Interfaces;
 using Front.Cliente;
 using Newtonsoft.Json;
@@ -43,36 +44,9 @@ namespace WinFormsApp1
             }
         }
 
-        private async Task Cargar_Cliente_Async(int dni)
-        {
-            
-            string url = "https://localhost:44373/api/Presupuestos/" + dni.ToString();
-            var result = await ClienteSingleton.GetInstancia().GetAsync(url);
-            this.oCliente = JsonConvert.DeserializeObject<Cliente>(result);
+       
 
-            txtNombre.Text = oCliente.nombre;
-            txtApellido.Text = oCliente.apellido;
-            txtDni.Text = (oCliente.dni).ToString();
-            txtFecha.Text = oCliente.FechaAlta.ToString("dd/MM/yyyy");
-            
-
-            //dgvDetalles.Rows.Clear();
-            //foreach (Cuenta oDetalle in oCliente.Cuentas) //----------------> ver esto
-            //{
-            //    dgvDetalles.Rows.Add(new object[] { "", //oDetalle.Cuenta.cb, }); ; ---> 
-            //}
-            
-        }
-
-        //private async Task<HttpResponseMessage> Grabar_Cliente_Async(Cliente oCliente) 
-        //{
-        //    string url = "https://localhost:44389/api/Cliente/";
-        //    string clienteJson = JsonConvert.SerializeObject(oCliente);
-        //    var result = await ClienteSingleton.GetInstancia().PostAsync(url, clienteJson);
-
-        //    return result;
-
-        //}
+        
 
         private async void btnAceptar_Click(object sender, EventArgs e)
         {
@@ -100,19 +74,41 @@ namespace WinFormsApp1
             cliente.nombre = txtNombre.Text;
             cliente.dni = long.Parse(txtDni.Text);
             cliente.FechaAlta = Convert.ToDateTime(txtFecha.Text);
-
+            cliente.password = txtPassword.Text;
 
             var result = await Grabar_Cliente_Async(cliente);
+            if (!result.IsSuccessStatusCode) //-- ver si esta bien 
+            {
+                MessageBox.Show("Error al intentar grabar el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+               // MessageBox.Show("Cliente guardado con éxito!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Dispose();
+                
+            }
+            //else
+            //{
+            //    MessageBox.Show("Error al intentar grabar el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+            Cliente clienteAux = await Consultar_Cliente_Async(cliente.dni);
+
+
+            ClienteCuenta cuenta = new ClienteCuenta();
+            cuenta.Saldo = 0;
+            cuenta.Cbu = ClienteCuenta.GenerarCbu();
+            cuenta.Id_cliente = clienteAux.Id;
+            cuenta.tipoCuenta = Convert.ToInt32(cboCuentas.SelectedValue);
+
+            result = await Grabar_Cliente_Cuenta_Async(cuenta);
             if (result.IsSuccessStatusCode) //-- ver si esta bien 
             {
-                MessageBox.Show("Cliente guardado con éxito!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Dispose();
+                 MessageBox.Show("Cliente y cuentas creadas con éxito!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //this.Dispose();
+
             }
             else
             {
-                MessageBox.Show("Error al intentar grabar el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al intentar crear la cuenta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
 
         }
 
@@ -172,6 +168,43 @@ namespace WinFormsApp1
         private void gbDatosCliente_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private async Task<Cliente> Consultar_Cliente_Async(long dni)
+        {
+            string url = "https://localhost:44389/api/Cliente/" + dni.ToString();
+            var result = await ClienteSingleton.GetInstancia().GetAsync(url);
+           return JsonConvert.DeserializeObject<Cliente>(result);
+        }
+        private async Task<HttpResponseMessage> Grabar_Cliente_Cuenta_Async(ClienteCuenta cuenta)
+        {
+            string url = "https://localhost:44389/api/ClienteCuenta/" ;
+            string cuentaJson = JsonConvert.SerializeObject(cuenta);
+            var result = await ClienteSingleton.GetInstancia().PostAsync(url, cuentaJson);
+            return result;
+        }
+
+        private async Task<HttpResponseMessage> Grabar_Cliente_Async(Cliente oCliente)
+        {
+            string url = "https://localhost:44389/api/Cliente/";
+            string clienteJson = JsonConvert.SerializeObject(oCliente);
+            var result = await ClienteSingleton.GetInstancia().PostAsync(url, clienteJson);
+
+            return result;
+
+        }
+
+        private async Task Cargar_Cliente_Async(int dni)
+        {
+
+            string url = "https://localhost:44389/api/Presupuestos/" + dni.ToString();
+            var result = await ClienteSingleton.GetInstancia().GetAsync(url);
+            this.oCliente = JsonConvert.DeserializeObject<Cliente>(result);
+
+            txtNombre.Text = oCliente.nombre;
+            txtApellido.Text = oCliente.apellido;
+            txtDni.Text = (oCliente.dni).ToString();
+            txtFecha.Text = oCliente.FechaAlta.ToString("dd/MM/yyyy");
         }
     }
 }

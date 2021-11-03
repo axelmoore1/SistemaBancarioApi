@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BancoLib;
+using Front.Cliente;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,9 +24,9 @@ namespace BancoForms
 
         private void txtUserName_TextChanged(object sender, EventArgs e)
         {
-            if (txtUserName.Text == "User" || string.IsNullOrEmpty(txtUserName.Text))
+            if (txtDni.Text == "User" || string.IsNullOrEmpty(txtDni.Text))
             {
-                Limpiar2(txtUserName);
+                Limpiar2(txtDni);
             }
         }
         public void Limpiar2(TextBox tbx)
@@ -45,7 +48,7 @@ namespace BancoForms
         private void TCtaBN_Leave(object sender, EventArgs e)
         {
 
-            FormatoTbx(txtUserName, txtpassword.Text);
+            FormatoTbx(txtDni, txtpassword.Text);
 
         }
         public void FormatoTbx(TextBox tbx, string campo)
@@ -76,31 +79,56 @@ namespace BancoForms
             Application.Exit();
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private async void button1_Click_1(object sender, EventArgs e)
         {
-            if (txtUserName.Text == "demo" && txtpassword.Text == "1234")
+            if (txtDni.Text == "" ) 
             {
-                new Inicio().Show();
-                this.Hide();
-
+                MessageBox.Show("Ingrese dni", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtDni.Focus();
+                return;
             }
 
-            else
+            if ( txtpassword.Text == "")
             {
-                MessageBox.Show("The User name or password you entered is incorrect, try again");
-                txtUserName.Clear();
-                txtpassword.Clear();
-                txtUserName.Focus();
+                MessageBox.Show("Ingrese Password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtpassword.Focus();
+                return;
+            }
+
+
+            long dni = long.Parse(txtDni.Text);
+
+            Cliente cliente = await Consultar_Cliente_Async(dni);
+            if (cliente == null) 
+            {
+                MessageBox.Show("Usuario incorrecto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtDni.Focus();
+                return;
+            }
+
+            string password = txtpassword.Text;
+
+            if (!password.Equals(cliente.password)) 
+            {
+                MessageBox.Show("Contraseña incorrecto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
 
         private void label2_Click_1(object sender, EventArgs e)
         {
             {
-                txtUserName.Clear();
+                txtDni.Clear();
                 txtpassword.Clear();
-                txtUserName.Focus();
+                txtDni.Focus();
             }
+        }
+
+        private async Task<Cliente> Consultar_Cliente_Async(long dni)
+        {
+            string url = "https://localhost:44389/api/Cliente/" + dni.ToString();
+            var result = await ClienteSingleton.GetInstancia().GetAsync(url);
+            return JsonConvert.DeserializeObject<Cliente>(result);
         }
     }
 }

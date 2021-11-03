@@ -25,5 +25,19 @@ namespace BancoLib.Dominio
         public int tipoCuenta{ get; set; }
         public int Id_cliente { get; set; }
 
+        public static long GenerarCbu()
+        {
+            var seed = Environment.TickCount;
+            Random random = new Random(seed);
+            string cbu = "";
+            for (int i = 0; i < 5; i++)
+            {
+                var value = random.Next(0, 10);
+                cbu += value.ToString();
+            }
+
+            return long.Parse(cbu);
+        }
+
     }
 }
