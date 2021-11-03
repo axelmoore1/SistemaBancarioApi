@@ -29,9 +29,9 @@ namespace BancoLib
         }
 
 
-        public void QuitarCuenta(int nro)
+        public void QuitarCuenta(int indice)
         {
-            Cuentas.RemoveAt(nro);
+            Cuentas.RemoveAt(indice);
         }
         public override string ToString()
         {

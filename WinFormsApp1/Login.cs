@@ -88,7 +88,7 @@ namespace BancoForms
                 return;
             }
 
-            if ( txtpassword.Text == "")
+            if (txtpassword.Text == "") 
             {
                 MessageBox.Show("Ingrese Password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtpassword.Focus();
@@ -107,12 +107,14 @@ namespace BancoForms
             }
 
             string password = txtpassword.Text;
+            
 
             if (!password.Equals(cliente.password)) 
             {
                 MessageBox.Show("Contraseña incorrecto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            
         }
 
         private void label2_Click_1(object sender, EventArgs e)

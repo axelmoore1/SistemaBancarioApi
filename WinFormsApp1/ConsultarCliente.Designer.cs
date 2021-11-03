@@ -35,13 +35,7 @@ namespace BancoForms
             this.btnConsultar = new System.Windows.Forms.Button();
             this.gbResultados = new System.Windows.Forms.GroupBox();
             this.dgvResultados = new System.Windows.Forms.DataGridView();
-            this.colNro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCBU = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTipoCuenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSaldo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAcciones = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btnSalir = new System.Windows.Forms.Button();
-            this.btnEliminar = new System.Windows.Forms.Button();
             this.btnEditar = new System.Windows.Forms.Button();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
@@ -51,6 +45,11 @@ namespace BancoForms
             this.lblFecha = new System.Windows.Forms.Label();
             this.btnAbrir = new System.Windows.Forms.Button();
             this.cboCuentas = new System.Windows.Forms.ComboBox();
+            this.colNro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCBU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTipoCuenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSaldo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuitar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.gbFiltros.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).BeginInit();
             this.SuspendLayout();
@@ -119,7 +118,7 @@ namespace BancoForms
             this.colCBU,
             this.colTipoCuenta,
             this.colSaldo,
-            this.colAcciones});
+            this.colQuitar});
             this.dgvResultados.Location = new System.Drawing.Point(98, 356);
             this.dgvResultados.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dgvResultados.Name = "dgvResultados";
@@ -128,49 +127,7 @@ namespace BancoForms
             this.dgvResultados.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvResultados.Size = new System.Drawing.Size(524, 152);
             this.dgvResultados.TabIndex = 0;
-            // 
-            // colNro
-            // 
-            this.colNro.HeaderText = "Column1";
-            this.colNro.MinimumWidth = 6;
-            this.colNro.Name = "colNro";
-            this.colNro.ReadOnly = true;
-            this.colNro.Visible = false;
-            this.colNro.Width = 125;
-            // 
-            // colCBU
-            // 
-            this.colCBU.HeaderText = "CBU";
-            this.colCBU.MinimumWidth = 6;
-            this.colCBU.Name = "colCBU";
-            this.colCBU.ReadOnly = true;
-            this.colCBU.Width = 125;
-            // 
-            // colTipoCuenta
-            // 
-            this.colTipoCuenta.HeaderText = "Tipo Cuenta";
-            this.colTipoCuenta.MinimumWidth = 6;
-            this.colTipoCuenta.Name = "colTipoCuenta";
-            this.colTipoCuenta.ReadOnly = true;
-            this.colTipoCuenta.Width = 125;
-            // 
-            // colSaldo
-            // 
-            this.colSaldo.HeaderText = "Saldo";
-            this.colSaldo.MinimumWidth = 6;
-            this.colSaldo.Name = "colSaldo";
-            this.colSaldo.ReadOnly = true;
-            this.colSaldo.Width = 125;
-            // 
-            // colAcciones
-            // 
-            this.colAcciones.HeaderText = "Acciones";
-            this.colAcciones.MinimumWidth = 6;
-            this.colAcciones.Name = "colAcciones";
-            this.colAcciones.ReadOnly = true;
-            this.colAcciones.Text = "Ver detalle";
-            this.colAcciones.UseColumnTextForButtonValue = true;
-            this.colAcciones.Width = 125;
+            //this.dgvResultados.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvResultados_CellContentClick);
             // 
             // btnSalir
             // 
@@ -181,16 +138,7 @@ namespace BancoForms
             this.btnSalir.TabIndex = 7;
             this.btnSalir.Text = "S&alir";
             this.btnSalir.UseVisualStyleBackColor = true;
-            // 
-            // btnEliminar
-            // 
-            this.btnEliminar.Location = new System.Drawing.Point(294, 528);
-            this.btnEliminar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(88, 27);
-            this.btnEliminar.TabIndex = 6;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
             // btnEditar
             // 
@@ -269,6 +217,49 @@ namespace BancoForms
             this.cboCuentas.Size = new System.Drawing.Size(185, 23);
             this.cboCuentas.TabIndex = 18;
             // 
+            // colNro
+            // 
+            this.colNro.HeaderText = "Column1";
+            this.colNro.MinimumWidth = 6;
+            this.colNro.Name = "colNro";
+            this.colNro.ReadOnly = true;
+            this.colNro.Visible = false;
+            this.colNro.Width = 125;
+            // 
+            // colCBU
+            // 
+            this.colCBU.HeaderText = "CBU";
+            this.colCBU.MinimumWidth = 6;
+            this.colCBU.Name = "colCBU";
+            this.colCBU.ReadOnly = true;
+            this.colCBU.Width = 125;
+            // 
+            // colTipoCuenta
+            // 
+            this.colTipoCuenta.HeaderText = "Tipo Cuenta";
+            this.colTipoCuenta.MinimumWidth = 6;
+            this.colTipoCuenta.Name = "colTipoCuenta";
+            this.colTipoCuenta.ReadOnly = true;
+            this.colTipoCuenta.Width = 125;
+            // 
+            // colSaldo
+            // 
+            this.colSaldo.HeaderText = "Saldo";
+            this.colSaldo.MinimumWidth = 6;
+            this.colSaldo.Name = "colSaldo";
+            this.colSaldo.ReadOnly = true;
+            this.colSaldo.Width = 125;
+            // 
+            // colQuitar
+            // 
+            this.colQuitar.HeaderText = "Acciones";
+            this.colQuitar.MinimumWidth = 6;
+            this.colQuitar.Name = "colQuitar";
+            this.colQuitar.ReadOnly = true;
+            this.colQuitar.Text = "Quitar";
+            this.colQuitar.UseColumnTextForButtonValue = true;
+            this.colQuitar.Width = 125;
+            // 
             // ConsultarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -284,7 +275,6 @@ namespace BancoForms
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.dgvResultados);
             this.Controls.Add(this.btnSalir);
-            this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.gbResultados);
             this.Controls.Add(this.gbFiltros);
@@ -307,13 +297,7 @@ namespace BancoForms
         private System.Windows.Forms.GroupBox gbResultados;
         private System.Windows.Forms.DataGridView dgvResultados;
         private System.Windows.Forms.Button btnSalir;
-        private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.Button btnEditar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colNro;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCBU;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTipoCuenta;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSaldo;
-        private System.Windows.Forms.DataGridViewButtonColumn colAcciones;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.TextBox txtFecha;
@@ -322,5 +306,10 @@ namespace BancoForms
         private System.Windows.Forms.Label lblFecha;
         private System.Windows.Forms.Button btnAbrir;
         private System.Windows.Forms.ComboBox cboCuentas;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNro;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCBU;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTipoCuenta;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSaldo;
+        private System.Windows.Forms.DataGridViewButtonColumn colQuitar;
     }
 }

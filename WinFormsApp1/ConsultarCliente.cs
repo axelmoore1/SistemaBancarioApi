@@ -51,48 +51,49 @@ namespace BancoForms
 
         private async void btnAbrir_Click(object sender, EventArgs e)
         {
-            Cliente cliente = await Consultar_Cliente_Async(long.Parse(txtDni.Text));
-
-            string url = "https://localhost:44389/api/ClienteCuenta/";
-            ClienteCuenta oClienteCuenta = new ClienteCuenta();
-            oClienteCuenta.Cbu = ClienteCuenta.GenerarCbu();
-            oClienteCuenta.Saldo = 0;
-            oClienteCuenta.tipoCuenta = Convert.ToInt32(cboCuentas.SelectedValue);
-            oClienteCuenta.Id_cliente = cliente.Id;
-            string clienteJson = JsonConvert.SerializeObject(oClienteCuenta);
-            var result = await ClienteSingleton.GetInstancia().PostAsync(url, clienteJson);
-
-            if (result.IsSuccessStatusCode) //-- ver si esta bien 
             {
-                MessageBox.Show("Cuenta guardada con éxito!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
-            }
-            else
-            {
-                MessageBox.Show("Error al intentar grabar la cuenta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                Cliente cliente = await Consultar_Cliente_Async(long.Parse(txtDni.Text));
 
-            url = "https://localhost:44389/api/ClienteCuenta/" + cliente.dni.ToString();
-            var result2 = await ClienteSingleton.GetInstancia().GetAsync(url);
-            var lista = JsonConvert.DeserializeObject<List<ClienteCuenta>>(result2);
+                string url = "https://localhost:44389/api/ClienteCuenta/";
+                ClienteCuenta oClienteCuenta = new ClienteCuenta();
+                oClienteCuenta.Cbu = ClienteCuenta.GenerarCbu();
+                oClienteCuenta.Saldo = 0;
+                oClienteCuenta.tipoCuenta = Convert.ToInt32(cboCuentas.SelectedValue);
+                oClienteCuenta.Id_cliente = cliente.Id;
+                string clienteJson = JsonConvert.SerializeObject(oClienteCuenta);
+                var result = await ClienteSingleton.GetInstancia().PostAsync(url, clienteJson);
 
-            dgvResultados.Rows.Clear();
-            if (lista.Count != 0)
-            {
-                foreach (ClienteCuenta item in lista)
+                if (result.IsSuccessStatusCode)
                 {
-                    dgvResultados.Rows.Add(new object[] {   item.Id,
+                    MessageBox.Show("Cuenta guardada con éxito!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Error al intentar grabar la cuenta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                url = "https://localhost:44389/api/ClienteCuenta/" + cliente.dni.ToString();
+                var result2 = await ClienteSingleton.GetInstancia().GetAsync(url);
+                var lista = JsonConvert.DeserializeObject<List<ClienteCuenta>>(result2);
+
+                dgvResultados.Rows.Clear();
+                if (lista.Count != 0)
+                {
+                    foreach (ClienteCuenta item in lista)
+                    {
+                        dgvResultados.Rows.Add(new object[] {   item.Id,
                                                             item.Cbu,
                                                             item.tipoCuenta,
                                                             item.Saldo
                                                             });
+                    }
                 }
+
+                btnAbrir.Enabled = false;
+                cboCuentas.Enabled = false;
+                cboCuentas.SelectedIndex = -1;
             }
-
-            btnAbrir.Enabled = false;
-            cboCuentas.Enabled = false;
-            cboCuentas.SelectedIndex = -1;
-
         }
 
         private async Task<Cliente> Consultar_Cliente_Async(long dni)
@@ -136,5 +137,29 @@ namespace BancoForms
                 }
             }
         }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+         DialogResult resultado = MessageBox.Show("Esta seguro que desea salir", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+            if (resultado == DialogResult.Yes)
+            {
+                this.Dispose();
+            }
+            else { return; }
+         
+        }
+
+
+        private void dgvResultados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvResultados.CurrentCell.ColumnIndex == 5)
+            {
+                oCliente.QuitarCuenta(dgvResultados.CurrentRow.Index);
+                dgvResultados.Rows.Remove(dgvResultados.CurrentRow);
+
+            }
+        }
+
+      
     }
 }

@@ -30,8 +30,10 @@ namespace WinFormsApp1
         private void InitializeComponent()
         {
             this.btnAceptar = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnSalir = new System.Windows.Forms.Button();
             this.gbDatosCliente = new System.Windows.Forms.GroupBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.lblPassword = new System.Windows.Forms.Label();
             this.lblTipoCta = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,8 +45,6 @@ namespace WinFormsApp1
             this.txtDni = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
             this.gbDatosCliente.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,14 +58,15 @@ namespace WinFormsApp1
             this.btnAceptar.UseVisualStyleBackColor = true;
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
-            // btnDelete
+            // btnSalir
             // 
-            this.btnDelete.Location = new System.Drawing.Point(609, 382);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(87, 28);
-            this.btnDelete.TabIndex = 6;
-            this.btnDelete.Text = "Eliminar";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnSalir.Location = new System.Drawing.Point(609, 382);
+            this.btnSalir.Name = "btnSalir";
+            this.btnSalir.Size = new System.Drawing.Size(87, 28);
+            this.btnSalir.TabIndex = 6;
+            this.btnSalir.Text = "Salir";
+            this.btnSalir.UseVisualStyleBackColor = true;
+            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
             // gbDatosCliente
             // 
@@ -90,6 +91,23 @@ namespace WinFormsApp1
             this.gbDatosCliente.TabIndex = 18;
             this.gbDatosCliente.TabStop = false;
             this.gbDatosCliente.Enter += new System.EventHandler(this.gbDatosCliente_Enter);
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(215, 324);
+            this.txtPassword.MaxLength = 8;
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(100, 23);
+            this.txtPassword.TabIndex = 31;
+            // 
+            // lblPassword
+            // 
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Location = new System.Drawing.Point(120, 327);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(57, 15);
+            this.lblPassword.TabIndex = 30;
+            this.lblPassword.Text = "Password";
             // 
             // lblTipoCta
             // 
@@ -188,22 +206,6 @@ namespace WinFormsApp1
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
-            // lblPassword
-            // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(120, 327);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(57, 15);
-            this.lblPassword.TabIndex = 30;
-            this.lblPassword.Text = "Password";
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.Location = new System.Drawing.Point(215, 324);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(100, 23);
-            this.txtPassword.TabIndex = 31;
-            // 
             // NuevoCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -212,7 +214,7 @@ namespace WinFormsApp1
             this.ClientSize = new System.Drawing.Size(700, 422);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.gbDatosCliente);
-            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.btnAceptar);
             this.Name = "NuevoCliente";
             this.Text = "Nuevo Cliente";
@@ -226,7 +228,7 @@ namespace WinFormsApp1
         #endregion
 
         private System.Windows.Forms.Button btnAceptar;
-        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.GroupBox gbDatosCliente;
         private System.Windows.Forms.ComboBox cboCuentas;
         private System.Windows.Forms.TextBox txtFecha;

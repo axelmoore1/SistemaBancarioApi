@@ -48,14 +48,20 @@ namespace SistemaBancarioApi.Controllers
         {
             if (oCliente == null)
             {
+
                 return BadRequest();
             }
             if (bancoService.CrearCliente(oCliente))
             {
-                return Ok("Cliente cargado correctamente");
+                if (oCliente.password.Length > 8)
+                {
+                    return Ok("No se pudo cargar el cliente");
+                }
+               
             }
-            else 
-                return Ok("No se pudo cargar el cliente"); 
+            return Ok("Cliente cargado correctamente");
+
+
         }
 
         // PUT api/<ClienteController>/5

@@ -25,7 +25,6 @@ namespace WinFormsApp1
     }
     public partial class NuevoCliente : Form
     {
-        //private IService service;
         private Accion accion = Accion.CREATE; 
 
         Cliente oCliente = new Cliente();  
@@ -33,9 +32,7 @@ namespace WinFormsApp1
         public NuevoCliente()
         {
             InitializeComponent();
-           // service = new ServiceFactory().CrearService();
-            
-            
+          
             if (accion == Accion.READ)
             {
                 gbDatosCliente.Enabled = false;
@@ -74,7 +71,8 @@ namespace WinFormsApp1
             cliente.nombre = txtNombre.Text;
             cliente.dni = long.Parse(txtDni.Text);
             cliente.FechaAlta = Convert.ToDateTime(txtFecha.Text);
-            cliente.password = txtPassword.Text;
+            cliente.password = txtPassword.Text; 
+            
 
             var result = await Grabar_Cliente_Async(cliente);
             if (!result.IsSuccessStatusCode) //-- ver si esta bien 
@@ -99,7 +97,7 @@ namespace WinFormsApp1
             cuenta.tipoCuenta = Convert.ToInt32(cboCuentas.SelectedValue);
 
             result = await Grabar_Cliente_Cuenta_Async(cuenta);
-            if (result.IsSuccessStatusCode) //-- ver si esta bien 
+            if (result.IsSuccessStatusCode) 
             {
                  MessageBox.Show("Cliente y cuentas creadas con éxito!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //this.Dispose();
@@ -137,11 +135,18 @@ namespace WinFormsApp1
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("¿Está seguro que desea cancelar el registro?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("¿Está seguro que desea cancelar el registro?", "Cancelar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                this.Dispose();
+                LimpiarCampos();
             }
+        }
+
+        private void LimpiarCampos() 
+        {
+            txtNombre.Text = txtApellido.Text = txtPassword.Text = string.Empty;
+            txtDni.Text = string.Empty;
+            cboCuentas.SelectedIndex = -1; 
         }
 
        
@@ -205,6 +210,16 @@ namespace WinFormsApp1
             txtApellido.Text = oCliente.apellido;
             txtDni.Text = (oCliente.dni).ToString();
             txtFecha.Text = oCliente.FechaAlta.ToString("dd/MM/yyyy");
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show("Esta seguro que desea salir", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+            if (resultado == DialogResult.Yes)
+            {
+                this.Dispose();
+            }
+            else { return; }
         }
     }
 }
