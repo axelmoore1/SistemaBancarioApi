@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinFormsApp1;
 
 namespace BancoForms
 {
@@ -18,6 +19,7 @@ namespace BancoForms
         public Inicio()
         {
             InitializeComponent();
+            txtpassword.PasswordChar = '*';
         }
 
      
@@ -28,10 +30,12 @@ namespace BancoForms
             {
                 Limpiar2(txtDni);
             }
+
+
         }
         public void Limpiar2(TextBox tbx)
         {
-            if (tbx.Name == "User" || tbx.Name == "Password")
+            if (tbx.Name == "User" || tbx.Name == "")
             {
                 tbx.ForeColor = Color.Black;
                 tbx.Text = "";
@@ -65,7 +69,7 @@ namespace BancoForms
 
                 tbx.ForeColor = Color.Black;
                 tbx.TextAlign = HorizontalAlignment.Left;
-                if (tbx.Name == "User" || tbx.Name == "Password")
+                if (tbx.Name == "User" || tbx.Name == "")
                 {
                     tbx.ForeColor = Color.Black;
                     tbx.TextAlign = HorizontalAlignment.Left;
@@ -113,8 +117,12 @@ namespace BancoForms
             {
                 MessageBox.Show("Contraseña incorrecto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
+                
             }
+            Menu menu = new Menu();
+            menu.ShowDialog();
             
+
         }
 
         private void label2_Click_1(object sender, EventArgs e)
@@ -131,6 +139,12 @@ namespace BancoForms
             string url = "https://localhost:44389/api/Cliente/" + dni.ToString();
             var result = await ClienteSingleton.GetInstancia().GetAsync(url);
             return JsonConvert.DeserializeObject<Cliente>(result);
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            NuevoCliente nuevo = new NuevoCliente();
+            nuevo.ShowDialog();
         }
     }
 }

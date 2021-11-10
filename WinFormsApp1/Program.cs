@@ -1,4 +1,5 @@
 using BancoForms;
+using Front;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace WinFormsApp1
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new NuevoCliente()) ;
+            Application.Run(new Inicio()); 
         }
     }
 }

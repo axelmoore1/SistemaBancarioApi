@@ -61,7 +61,7 @@ namespace BancoLib.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Data Source=.\SQLEXPRESS02;Initial Catalog=Bancario;Integrated Security=True.
+        ///   Busca una cadena traducida similar a Data Source=.\SQLEXPRESS;Initial Catalog=Bancario;Integrated Security=True.
         /// </summary>
         internal static string conexion {
             get {

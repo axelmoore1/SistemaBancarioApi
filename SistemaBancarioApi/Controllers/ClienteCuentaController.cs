@@ -57,10 +57,11 @@ namespace SistemaBancarioApi.Controllers
         //{
         //}
 
-        //// DELETE api/<ClienteCuentaController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE api/<ClienteCuentaController>/5
+        [HttpDelete("{cbu}")]
+        public void Delete(long cbu)
+        {
+            bancoService.DeleteCuentaCliente(cbu);
+        }
     }
 }

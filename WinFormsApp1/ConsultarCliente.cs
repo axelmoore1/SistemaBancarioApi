@@ -63,15 +63,15 @@ namespace BancoForms
                 string clienteJson = JsonConvert.SerializeObject(oClienteCuenta);
                 var result = await ClienteSingleton.GetInstancia().PostAsync(url, clienteJson);
 
-                if (result.IsSuccessStatusCode)
-                {
-                    MessageBox.Show("Cuenta guardada con éxito!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //if (result.IsSuccessStatusCode)
+                //{
+                //    MessageBox.Show("Cuenta guardada con éxito!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                }
-                else
-                {
-                    MessageBox.Show("Error al intentar grabar la cuenta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Error al intentar grabar la cuenta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //}
 
                 url = "https://localhost:44389/api/ClienteCuenta/" + cliente.dni.ToString();
                 var result2 = await ClienteSingleton.GetInstancia().GetAsync(url);
@@ -93,6 +93,16 @@ namespace BancoForms
                 btnAbrir.Enabled = false;
                 cboCuentas.Enabled = false;
                 cboCuentas.SelectedIndex = -1;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Cuenta guardada con éxito!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("Error al intentar grabar la cuenta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -150,16 +160,24 @@ namespace BancoForms
         }
 
 
-        private void dgvResultados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    
+
+        private async Task Eliminar_CuentaCliente_Async(long cbu)
         {
-            if (dgvResultados.CurrentCell.ColumnIndex == 5)
+            string url = "https://localhost:44389/api/ClienteCuenta/" + cbu.ToString();
+            var result = await ClienteSingleton.GetInstancia().DeleteAsync(url);
+           
+        }
+
+        private async void dgvResultados_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvResultados.CurrentCell.ColumnIndex == 4)
             {
                 oCliente.QuitarCuenta(dgvResultados.CurrentRow.Index);
                 dgvResultados.Rows.Remove(dgvResultados.CurrentRow);
-
+                await Eliminar_CuentaCliente_Async((long)dgvResultados.CurrentRow.Cells[1].Value);
             }
-        }
 
-      
+        }
     }
 }

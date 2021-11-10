@@ -157,3 +157,34 @@ BEGIN
 	
 END
 GO
+
+alter procedure [dbo].[SP_CONSULTAR_CUENTAS_POR_NOMBRE]
+	@nombre_tipo_cuenta varchar(30)
+AS
+BEGIN
+	SELECT *
+	FROM tipoCuenta
+	WHERE nombre_tipo_cuenta = @nombre_tipo_cuenta
+END
+
+GO
+
+
+
+CREATE PROCEDURE [dbo].[SP_REGISTRAR_BAJA_CUENTA] 
+	@nombre varchar(30)
+AS
+BEGIN
+	DELETE FROM tipoCuenta WHERE nombre_tipo_cuenta = @nombre
+	
+END
+
+
+create view ClienteCuenta
+as
+select c.nombre, c.apellido,cu.cbu ,ti.nombre_tipo_cuenta
+from clientes c join CuentaCliente cu on c.id_cliente = cu.id_cliente 
+join tipoCuenta ti on cu.id_tipo_cuenta = ti.id_tipo_cuenta
+
+
+select * from clientes

@@ -107,7 +107,7 @@ namespace WinFormsApp1
             {
                 MessageBox.Show("Error al intentar crear la cuenta", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+            LimpiarCampos();
         }
 
 
@@ -170,10 +170,7 @@ namespace WinFormsApp1
             //}
         }
 
-        private void gbDatosCliente_Enter(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private async Task<Cliente> Consultar_Cliente_Async(long dni)
         {

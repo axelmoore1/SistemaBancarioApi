@@ -134,6 +134,7 @@ namespace BancoLib.AccesoDatos.Implementaciones
                     oCliente.dni = long.Parse(dr.GetString(3));
                     oCliente.FechaAlta = dr.GetDateTime(4);
                     oCliente.password = dr.GetString(5);
+                    
                 }
                 return oCliente;
             }
@@ -275,6 +276,187 @@ namespace BancoLib.AccesoDatos.Implementaciones
                 lista.Add(oCuenta);
             }
             return lista;
+        }
+
+        public bool DeleteCuentaCliente(long cbu)
+        {
+            SqlConnection conexion = new SqlConnection(cadena);
+            SqlTransaction transaction = null;
+            int affected = 0;
+            try
+            {
+
+                conexion.Open();
+                transaction = conexion.BeginTransaction(); //crea una conexion con la transaccion 
+                SqlCommand comando = new SqlCommand();
+                comando.Connection = conexion;
+                comando.Transaction = transaction; //utiliza el comando transaccion para poder utilizarla 
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.CommandText = "SP_REGISTRAR_BAJA_CLIENTE";
+
+
+                comando.Parameters.AddWithValue("@cbu", cbu);
+                affected = comando.ExecuteNonQuery();
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
+            finally
+            {
+                if (conexion != null && conexion.State == ConnectionState.Open)
+                    conexion.Close();
+            }
+
+            return affected == 1;
+
+        }
+
+        public bool CreateTipoCuenta(TipoCuenta oTipoCuenta)
+        {
+            bool ok = true;
+            int id_cliente = 0;
+
+            SqlConnection conexion = new SqlConnection(cadena);
+            SqlCommand comando = new SqlCommand();
+            SqlTransaction transaction = null;
+            conexion.Open();
+            comando.Connection = conexion;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "SP_INSERTAR_CUENTA";
+            try
+            {
+                transaction = conexion.BeginTransaction();
+
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.Transaction = transaction;
+                comando.Parameters.AddWithValue("@nombre_tipo_cuenta",oTipoCuenta.Nombre);
+                SqlParameter param = new SqlParameter();
+                param.ParameterName = "@id_tipo_cuenta";
+                param.SqlDbType = SqlDbType.Int;
+                param.Direction = ParameterDirection.Output;
+                comando.Parameters.Add(param);
+                comando.ExecuteNonQuery();
+                id_cliente = (int)param.Value;
+
+
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                ok = false;
+
+            }
+            finally
+            {
+                if (conexion.State == ConnectionState.Open)
+                {
+                    conexion.Close();
+                }
+            }
+            return ok;
+
+        }
+
+
+        public int GetNextCuentaId()
+        {
+            SqlConnection cnn = new SqlConnection(cadena);
+            cnn.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = cnn;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "SP_PROXIMO_ID";
+
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@next";
+            param.SqlDbType = SqlDbType.Int;
+            param.Direction = ParameterDirection.Output;
+
+            cmd.Parameters.Add(param);
+
+            cmd.ExecuteNonQuery();
+            cnn.Close();
+
+            return (int)param.Value;
+        }
+
+
+        public TipoCuenta GetCuentaPorNombre(string nombre)
+        {
+            SqlConnection conexion = new SqlConnection(cadena);
+            SqlCommand comando = new SqlCommand();
+            conexion.Open();
+            comando.Connection = conexion;
+            comando.CommandType = CommandType.StoredProcedure;
+            comando.CommandText = "SP_CONSULTAR_CUENTAS_POR_NOMBRE";
+
+            //Set SqlParameter - el name de la cuenta 
+            SqlParameter param1 = new SqlParameter();
+            param1.ParameterName = "@nombre_tipo_cuenta";
+            param1.SqlDbType = SqlDbType.VarChar;
+            param1.Value = nombre;
+
+            //add the parameter to the SqlCommand object
+            comando.Parameters.Add(param1);
+
+            //set the SqlCommand type to stored procedure and execute
+            SqlDataReader dr = comando.ExecuteReader();
+
+            //si encuentra algun cuenta
+            if (dr.HasRows)
+            {
+                TipoCuenta oCuenta = new TipoCuenta();
+                while (dr.Read())
+                {
+                    oCuenta.Id= dr.GetInt32(0);
+                    oCuenta.Nombre = dr.GetString(1);
+                    
+                }
+                return oCuenta;
+            }
+            // en el caso de no encontrar cuenta con ese name
+            else
+            {
+                return null;
+            }
+
+        }
+
+        public bool DeleteTipoCuenta(string nombre)
+        {
+            SqlConnection conexion = new SqlConnection(cadena);
+            SqlTransaction transaction = null;
+            int affected = 0;
+            try
+            {
+
+                conexion.Open();
+                transaction = conexion.BeginTransaction(); //crea una conexion con la transaccion 
+                SqlCommand comando = new SqlCommand();
+                comando.Connection = conexion;
+                comando.Transaction = transaction; //utiliza el comando transaccion para poder utilizarla 
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.CommandText = "SP_REGISTRAR_BAJA_CUENTA";
+
+
+                comando.Parameters.AddWithValue("@nombre", nombre);
+                affected = comando.ExecuteNonQuery();
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
+            finally
+            {
+                if (conexion != null && conexion.State == ConnectionState.Open)
+                    conexion.Close();
+            }
+
+            return affected == 1;
         }
     }
 }

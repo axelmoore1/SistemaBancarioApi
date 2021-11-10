@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Front;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,12 +27,10 @@ namespace BancoForms
             }
         }
 
-        
-
        
         private void ConsultarClienteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ConsultarCliente consultar = new ConsultarCliente();
+            Cuentas consultar = new Cuentas();
             consultar.ShowDialog();
         }
 
@@ -44,8 +43,9 @@ namespace BancoForms
 
         private void acercaDeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Moore, Axel"
-                          + "Ramallo, Camila");
+            MessageBox.Show("Moore, Axel" + "Ramallo, Camila" + "Agustin Retamar");
         }
+
+    
     }
 }

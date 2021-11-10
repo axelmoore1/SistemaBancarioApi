@@ -42,7 +42,11 @@ namespace Front.Cliente
         }
 
 
-
+        public async Task<HttpResponseMessage> DeleteAsync(string url)
+        {
+            var result = await cliente.DeleteAsync(url);
+            return result;
+        }
 
         //private async void button1_Click(object sender, EventArgs e)
         //{

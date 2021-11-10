@@ -21,6 +21,15 @@ namespace BancoLib.Servicios.Interfaces
         public List<ClienteCuenta> ConsultarClienteCuenta(long dni);
 
         public bool CrearCuentaCliente(ClienteCuenta clienteCuentas);
+        public bool DeleteCuentaCliente(long cbu);
+
+        public bool CreateTipoCuenta(TipoCuenta oTipoCuenta);
+
+        int GetNextCuentaId();
+
+        TipoCuenta GetCuentaPorNombre(string nombre);
+
+        public bool DeleteTipoCuenta(string nombre);
     }
 
    

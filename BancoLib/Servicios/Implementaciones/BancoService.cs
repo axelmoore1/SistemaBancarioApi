@@ -48,5 +48,29 @@ namespace BancoLib.Servicios.Implementaciones
         {
             return bancoDao.Delete(dni);
         }
+        public bool DeleteCuentaCliente(long cbu)
+        {
+            return bancoDao.DeleteCuentaCliente(cbu);
+        }
+
+        public bool CreateTipoCuenta(TipoCuenta oTipoCuenta)
+        {
+            return bancoDao.CreateTipoCuenta(oTipoCuenta);
+        }
+
+        public int GetNextCuentaId()
+        {
+            return bancoDao.GetNextCuentaId();
+        }
+
+        public TipoCuenta GetCuentaPorNombre(string nombre)
+        {
+            return bancoDao.GetCuentaPorNombre(nombre);
+        }
+
+        public bool DeleteTipoCuenta(string nombre)
+        {
+            return bancoDao.DeleteTipoCuenta(nombre);
+        }
     }
 }

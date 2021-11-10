@@ -29,16 +29,36 @@ namespace SistemaBancarioApi.Controllers
         }
 
         // GET api/<CuentaController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{nombre}")]
+        public TipoCuenta Get(string nombre)
         {
-            return "value";
+            return bancoService.GetCuentaPorNombre(nombre);
         }
 
+        // GET api/<CuentaController>/CuentaID
+        [Route("CuentaID")]
+        [HttpGet]
+        public int GetNextCuentaID()
+        {
+            return bancoService.GetNextCuentaId();
+        }
+        
         // POST api/<CuentaController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult PostTipoCuenta(TipoCuenta oTipoCuenta)
         {
+            if (oTipoCuenta == null)
+            {
+                return BadRequest();
+            }
+            if (bancoService.CreateTipoCuenta(oTipoCuenta))
+            {
+                return Ok("No se pudo cargar el cliente");
+            }
+            else
+            {
+                return Ok("Cliente cargado correctamente");
+            }
         }
 
         // PUT api/<CuentaController>/5
@@ -48,9 +68,17 @@ namespace SistemaBancarioApi.Controllers
         }
 
         // DELETE api/<CuentaController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{nombre}")]
+        public IActionResult Delete(string nombre)
         {
+            if (nombre == null)
+                return BadRequest();
+            if (bancoService.DeleteTipoCuenta(nombre))
+            {
+                return Ok("Se elimino correctamente");
+            }
+            else
+                return Ok("Nombre requerido");
         }
     }
 }

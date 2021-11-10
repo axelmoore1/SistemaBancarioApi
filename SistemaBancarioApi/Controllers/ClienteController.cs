@@ -22,6 +22,7 @@ namespace SistemaBancarioApi.Controllers
         public ClienteController()
         {
             bancoService = new BancoService();
+            
         }
 
         // GET: api/<ClienteController>
