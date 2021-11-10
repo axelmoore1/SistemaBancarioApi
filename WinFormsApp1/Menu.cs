@@ -43,9 +43,16 @@ namespace BancoForms
 
         private void acercaDeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Moore, Axel" + "Ramallo, Camila" + "Agustin Retamar");
+            MessageBox.Show(    "\t INTEGRANTES:\n"+
+                                "\t 112746 - Moore, Axel.\n" +
+                                "\t 112988 - Ramallo, Camila.\n" +
+                                "\t 113021 - Retamar, Agustin.\n" +
+                                "\t 113288 - Berton, Gonzalo.\n" +
+                                "\t 113160 - Ramallo, Tomas.\n" 
+                            );
+
         }
 
-    
+
     }
 }
